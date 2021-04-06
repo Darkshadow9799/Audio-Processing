@@ -3,6 +3,9 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 
+FRAME_SIZE = 1024
+HOP_SIZE = 512
+
 debussy_file='audio\debussy.wav'
 redhot_file='audio\\redhot.wav'
 duke_file='audio\duke.wav'
@@ -31,7 +34,7 @@ def plot_music(signal1, signal2, signal3):
 
     plt.show()
 
-def plot_music_ae(signal1, s1, signal2, s2, signal3, s3):
+def plot_music_ae(t, signal1, s1, signal2, s2, signal3, s3):
     plt.figure(figsize=(15,17))
 
     plt.subplot(3,1,1)
@@ -53,24 +56,3 @@ def plot_music_ae(signal1, s1, signal2, s2, signal3, s3):
     plt.ylim((-1,1))
 
     plt.show()
-
-
-plot_music(debussy, redhot, duke)
-
-FRAME_SIZE = 1024
-HOP_SIZE = 512
-
-def aplitude_envelope(signal,frame_size, hop_size):
-    return np.array([max(signal[i: i + frame_size]) for i in range(0, signal.size, hop_size)])
-
-
-
-ae_debussy = aplitude_envelope(debussy, FRAME_SIZE, HOP_SIZE)
-ae_redhot = aplitude_envelope(redhot, FRAME_SIZE, HOP_SIZE)
-ae_duke = aplitude_envelope(duke, FRAME_SIZE, HOP_SIZE)
-
-frames = range(0, ae_debussy.size)
-t = librosa.frames_to_time(frames, hop_length=HOP_SIZE)   
-
-plot_music_ae(debussy, ae_debussy, redhot, ae_redhot, duke, ae_duke)
-
